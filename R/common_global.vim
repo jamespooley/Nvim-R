@@ -1038,8 +1038,20 @@ function SetNvimcomInfo(nvimcomversion, nvimcomhome, bindportn, rpid, wid, r_inf
         call delete(g:rplugin.tmpdir . "/openR")
     endif
 
-    if g:R_after_start != ''
-        call system(g:R_after_start)
+    if type(g:R_after_start) == 1
+        if g:R_after_start != ''
+            call system(g:R_after_start)
+        endif
+    elseif type(g:R_after_start) == 3
+        for cmd in g:R_after_start
+            if cmd =~ '^!'
+                call system(substitute(cmd, '^!', '', ''))
+            elseif cmd =~ '^:'
+                exe substitute(cmd, '^:', '', '')
+            else
+                call RWarningMsg("R_after_start must be a list of strings starting with either '!' or ':'")
+            endif
+        endfor
     endif
     call timer_start(1000, "SetSendCmdToR")
 endfunction
