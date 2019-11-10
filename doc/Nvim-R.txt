@@ -945,7 +945,8 @@ of
 |R_wait|              Time to wait for nvimcom loading
 |R_wait_reply|        Time to wait for R reply
 |R_nvim_wd|           Start R in Vim's working directory
-|R_after_start|       Command to be executed after R startup
+|R_after_start|       Commands to be executed after R startup
+|R_after_ob_open|    Commands to be executed after the Object Browser opening
 |R_user_maps_only|    Only set user specified key bindings
 |R_tmpdir|            Where temporary files are created
 |R_compldir|          Where lists for omnicompletion are stored
@@ -2099,7 +2100,8 @@ in |vimrc|:
 
 ------------------------------------------------------------------------------
 							       *R_after_start*
-6.33 Command to be executed after R startup~
+							     *R_after_ob_open*
+6.33 Commands to be executed after either R startup or Object Browser opening~
 
 If you want that Vim executes either Vim or external commands right after R
 startup, set the value of R_after_start in your |vimrc|. The `R_after_start`
@@ -2145,6 +2147,11 @@ focus to Neovim terminal window:
        click menu item (name of window 1) of menu of menu bar item "Window" of menu bar 1
      end tell
    end tell
+<
+If you want that Nvim-R executes Vim commands right after the Object Browser
+is open, set the value of `R_after_ob_open` as a list of commands. Example:
+>
+   let R_after_ob_open = [':tabnew %']
 <
 
 ------------------------------------------------------------------------------
