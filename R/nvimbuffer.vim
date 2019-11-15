@@ -111,19 +111,17 @@ function StartR_InBuffer()
     let objbrttl = b:objbrtitle
     set switchbuf=useopen
 
-    if !(g:R_rconsole_width == 0 && g:R_rconsole_height == 0)
-        if g:R_rconsole_width > 0 && winwidth(0) > (g:R_rconsole_width + g:R_min_editor_width + 1 + (&number * &numberwidth))
-            if g:R_rconsole_width > 16 && g:R_rconsole_width < (winwidth(0) - 17)
-                silent exe "belowright " . g:R_rconsole_width . "vnew"
-            else
-                silent belowright vnew
-            endif
+    if g:R_rconsole_width > 0 && winwidth(0) > (g:R_rconsole_width + g:R_min_editor_width + 1 + (&number * &numberwidth))
+        if g:R_rconsole_width > 16 && g:R_rconsole_width < (winwidth(0) - 17)
+            silent exe "belowright " . g:R_rconsole_width . "vnew"
         else
-            if g:R_rconsole_height > 0 && g:R_rconsole_height < (winheight(0) - 1)
-                silent exe "belowright " . g:R_rconsole_height . "new"
-            else
-                silent belowright new
-            endif
+            silent belowright vnew
+        endif
+    else
+        if g:R_rconsole_height > 0 && g:R_rconsole_height < (winheight(0) - 1)
+            silent exe "belowright " . g:R_rconsole_height . "new"
+        else
+            silent belowright new
         endif
     endif
 
@@ -160,9 +158,7 @@ function StartR_InBuffer()
     " Set b:pdf_is_open to avoid error when the user has to go to R Console to
     " deal with latex errors while compiling the pdf
     let b:pdf_is_open = 1
-    if !(g:R_rconsole_width == 0 && g:R_rconsole_height == 0)
-        exe "sbuffer " . edbuf
-    endif
+    exe "sbuffer " . edbuf
     stopinsert
     call WaitNvimcomStart()
 endfunction
